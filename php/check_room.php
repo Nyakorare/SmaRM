@@ -6,15 +6,21 @@ include('./config.php');
 $room = $_POST['room'];
 $time = $_POST['time'];
 
-// Query to check if the room is booked at the chosen time
-$query = "
-    SELECT * FROM approved_requests 
-    WHERE room_number = ? 
-    AND TIME(start_time) <= ? AND TIME(end_time) > ?;
-";
-
-$stmt = $conn->prepare($query);
-$stmt->bind_param('sss', $room, $time, $time);
+// Prepare and execute the query
+$stmt = $conn->prepare("
+    SELECT ar.*, u.username, t.department 
+    FROM approved_requests ar
+    JOIN users u ON ar.user_id = u.id
+    LEFT JOIN teams t ON u.id = t.user_id
+    WHERE ar.room_number = ? 
+    AND ar.schedule_date = CURDATE()
+    AND (
+        (TIME(ar.start_time) <= ? AND TIME(ar.end_time) > ?) OR
+        (TIME(ar.start_time) < ? AND TIME(ar.end_time) >= ?) OR
+        (TIME(ar.start_time) >= ? AND TIME(ar.start_time) < ?)
+    )
+");
+$stmt->bind_param("sssssss", $room, $time, $time, $time, $time, $time, $time);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -24,8 +30,10 @@ if ($result->num_rows > 0) {
     $response = [
         'available' => false,
         'scheduler_name' => $row['scheduler_name'],
-        'start_time' => $row['start_time'],
-        'end_time' => $row['end_time'],
+        'username' => $row['username'],
+        'department' => $row['department'] ? $row['department'] : 'No Department',
+        'start_time' => date('h:i A', strtotime($row['start_time'])),
+        'end_time' => date('h:i A', strtotime($row['end_time'])),
     ];
 } else {
     $response = [

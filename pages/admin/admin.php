@@ -250,9 +250,10 @@ $conn->close();
 
         <!-- Navigation Links -->
         <div class="hidden md:flex items-center space-x-8">
-          <a href="./admin.php" class="text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Dashboard</a>
+          <a href="./admin.php" class="text-red-700 dark:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Dashboard</a>
           <a href="./accounts.php" class="text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Accounts</a>
           <a href="./teams.php" class="text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Team Management</a>
+          <a href="./room.php" class="text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Room Management</a>
         </div>
 
         <!-- User Menu -->

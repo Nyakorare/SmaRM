@@ -103,11 +103,11 @@ if (session_status() === PHP_SESSION_NONE) {
                 <span class="input-group-text" id="basic-addon1"><i class="bi-building custom-icon"></i></span>
                 <select name="room" id="room" class="form-control" required>
                     <option value="">Select Room</option>
-                    <option value="1">Room 1</option>
-                    <option value="2">Room 2</option>
-                    <option value="3">Room 3</option>
-                    <option value="4">Room 4</option>
-                    <option value="5">Room 5</option>
+                    <option value="1">Room 321</option>
+                    <option value="2">Room 322</option>
+                    <option value="3">Room 323</option>
+                    <option value="4">Room 324</option>
+                    <option value="5">Room 325</option>
                 </select>
             </div>
         </div>
@@ -571,7 +571,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 if (response.available) {
                     messageElement.textContent = 'The room is free at this time.';
                 } else {
-                    messageElement.innerHTML = `Room is already booked by <strong>${response.scheduler_name}</strong> from <strong>${response.start_time}</strong> to <strong>${response.end_time}</strong>.`;
+                    messageElement.innerHTML = `Room is booked by <strong>${response.username}</strong> for <strong>${response.scheduler_name}</strong> of <strong>${response.department}</strong> from <strong>${response.start_time}</strong> to <strong>${response.end_time}</strong>.`;
                 }
                 // Show the modal
                 let modal = new bootstrap.Modal(document.getElementById('roomAvailabilityModal'));
