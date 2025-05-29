@@ -1,0 +1,257 @@
+SmaRM System - Algorithms and Software Engineering Features
+=====================================================
+
+1. SCHEDULE CONFLICT DETECTION ALGORITHM
+---------------------------------------
+Implementation Location: handle_schedule_request.php
+
+Algorithm Description:
+- Uses a three-condition overlap detection system
+- Time Complexity: O(n) where n is the number of existing schedules
+- Space Complexity: O(1)
+
+Code Implementation:
+```php
+SELECT COUNT(*) 
+FROM approved_requests 
+WHERE room_number = ? AND schedule_date = ? 
+AND (
+    (start_time < ? AND end_time > ?) OR  // Complete overlap
+    (start_time >= ? AND start_time < ?) OR  // Start time overlap
+    (end_time > ? AND end_time <= ?)  // End time overlap
+)
+```
+
+Key Features:
+1. Complete Overlap Detection
+   - Checks if new schedule completely contains an existing schedule
+   - Prevents double-booking of entire time slots
+
+2. Partial Overlap Detection
+   - Validates if new schedule starts during an existing schedule
+   - Ensures no schedule starts while another is in progress
+
+3. End Time Overlap Detection
+   - Verifies if new schedule ends during an existing schedule
+   - Prevents schedule conflicts at the end of time slots
+
+2. CALENDAR GENERATION ALGORITHM
+-------------------------------
+Implementation Location: room.php
+
+Algorithm Description:
+- Dynamic calendar generation with event markers
+- Time Complexity: O(1) for month generation
+- Space Complexity: O(n) where n is the number of days in the month
+
+Key Features:
+1. Month Generation
+   - Calculates first and last day of month
+   - Determines correct starting day
+   - Generates calendar grid
+
+2. Event Marking
+   - Highlights days with scheduled events
+   - Uses color coding for different event types
+   - Provides visual feedback for schedule conflicts
+
+3. Interactive Features
+   - Click-to-select date functionality
+   - Hover effects for better UX
+   - Dynamic event loading
+
+3. SCHEDULE FILTERING ALGORITHM
+------------------------------
+Implementation Location: room.php
+
+Algorithm Description:
+- Multi-criteria filtering system
+- Time Complexity: O(n) where n is the number of schedules
+- Space Complexity: O(n) for filtered results
+
+Key Features:
+1. Date-based Filtering
+   - Filter by specific dates
+   - Range-based filtering
+   - Today's schedules view
+
+2. Time-based Filtering
+   - Filter by time slots
+   - Morning/Afternoon filtering
+   - Custom time range selection
+
+3. Room-specific Filtering
+   - Filter by room number
+   - Room availability checking
+   - Room capacity consideration
+
+4. TEAM MANAGEMENT ALGORITHM
+---------------------------
+Implementation Location: teams.js
+
+Algorithm Description:
+- Hierarchical team structure management
+- Time Complexity: O(1) for basic operations
+- Space Complexity: O(n) where n is the number of team members
+
+Key Features:
+1. Team Creation
+   - Dynamic team creation
+   - Department assignment
+   - Team hierarchy management
+
+2. Member Management
+   - Add/remove team members
+   - Role assignment
+   - Permission management
+
+3. Team Modification
+   - Team name updates
+   - Department changes
+   - Member reassignment
+
+5. AUTO-CLEANUP SYSTEM
+---------------------
+Implementation Location: admin.php
+
+Algorithm Description:
+- Automated cleanup of expired schedules
+- Time Complexity: O(n) where n is the number of expired schedules
+- Space Complexity: O(1)
+
+Key Features:
+1. Schedule Cleanup
+   - Automatic removal of past schedules
+   - Database optimization
+   - System maintenance
+
+2. Request Cleanup
+   - Removal of expired requests
+   - Conflict resolution
+   - System efficiency maintenance
+
+SOFTWARE ENGINEERING FEATURES
+============================
+
+1. Design Patterns
+-----------------
+a) MVC Pattern
+   - Model: Database interactions (php/config.php)
+   - View: Frontend templates (HTML/CSS)
+   - Controller: Request handling (PHP files)
+
+b) Singleton Pattern
+   - Database connection management
+   - Configuration handling
+   - Resource optimization
+
+c) Observer Pattern
+   - Theme changes
+   - Schedule updates
+   - Real-time notifications
+
+d) Factory Pattern
+   - User creation
+   - Schedule generation
+   - Team management
+
+2. Security Features
+-------------------
+a) Authentication
+   - Session-based authentication
+   - Password hashing
+   - Role-based access control
+
+b) Input Validation
+   - SQL injection prevention
+   - XSS protection
+   - CSRF protection
+
+c) Data Encryption
+   - Secure password storage
+   - Sensitive data encryption
+   - Secure communication
+
+3. Performance Optimization
+--------------------------
+a) Database Optimization
+   - Indexed queries
+   - Efficient table structure
+   - Regular cleanup
+
+b) Frontend Optimization
+   - Lazy loading
+   - Caching
+   - Minified assets
+
+4. Code Quality
+--------------
+a) Code Organization
+   - Modular structure
+   - Clear separation of concerns
+   - Consistent naming conventions
+
+b) Documentation
+   - Inline comments
+   - Function documentation
+   - API documentation
+
+c) Error Handling
+   - Graceful error recovery
+   - User-friendly error messages
+   - Logging system
+
+5. Testing and Maintenance
+-------------------------
+a) Testing
+   - Unit testing
+   - Integration testing
+   - User acceptance testing
+
+b) Maintenance
+   - Regular updates
+   - Bug fixes
+   - Performance monitoring
+
+6. User Experience
+-----------------
+a) Interface Design
+   - Responsive design
+   - Intuitive navigation
+   - Consistent styling
+
+b) Accessibility
+   - Screen reader support
+   - Keyboard navigation
+   - Color contrast compliance
+
+c) Performance
+   - Fast loading times
+   - Smooth interactions
+   - Efficient data handling
+
+7. Scalability
+--------------
+a) Database Scalability
+   - Efficient query optimization
+   - Proper indexing
+   - Connection pooling
+
+b) Application Scalability
+   - Modular architecture
+   - Load balancing ready
+   - Resource optimization
+
+8. Documentation
+---------------
+a) Technical Documentation
+   - API documentation
+   - Database schema
+   - Code documentation
+
+b) User Documentation
+   - User guides
+   - Admin manuals
+   - Troubleshooting guides
+
+These algorithms and features demonstrate the system's adherence to software engineering principles and best practices, making it a robust and maintainable solution for room management in educational institutions. 
