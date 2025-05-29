@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "smarmdb"; // Use the database name you created in phpMyAdmin.
+$dbname = "smarmdb";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -1,6 +1,8 @@
-<?
+<?php
 require './php/config.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>
@@ -51,12 +53,27 @@ session_start();
                         <li class="nav-item">
                             <a class="nav-link" href="./pages/landing-pages/contact.html">Contact</a>
                         </li>
+                        <?php if (isset($_SESSION['username'])): ?>
+                        <li class="nav-item ms-lg-auto">
+                            <div class="dropdown">
+                                <button class="nav-link custom-btn btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php echo htmlspecialchars($_SESSION['username']); ?>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="<?php echo $_SESSION['role'] === 'admin' ? './pages/admin/admin.php' : './pages/teacher/teacher.php'; ?>">Dashboard</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="./php/logout.php">Logout</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <?php else: ?>
                         <li class="nav-item ms-lg-auto">
                             <a class="nav-link" href="./pages/landing-pages/register-page.php">Register</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link custom-btn btn" href="./pages/landing-pages/login-page.php">Login</a>
                         </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

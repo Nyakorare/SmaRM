@@ -5,6 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $role = 'teacher'; // Default role for new registrations
 
     // Check for duplicate username.
     $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
@@ -30,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     window.history.back();
                   </script>";
         } else {
-            // Insert new user.
-            $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $username, $email, $password);
+            // Insert new user with role.
+            $stmt = $conn->prepare("INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $username, $email, $password, $role);
 
             if ($stmt->execute()) {
                 echo "<script>

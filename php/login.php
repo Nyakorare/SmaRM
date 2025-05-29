@@ -16,27 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, role FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        $stmt->bind_result($hashed_password);
+        $stmt->bind_result($hashed_password, $role);
         $stmt->fetch();
 
         if (password_verify($password, $hashed_password)) {
             $_SESSION['username'] = $username; // Store the username in session
+            $_SESSION['role'] = $role; // Store the role in session
         
-            // Determine user role
-            if ($username === 'admin') {
-                $_SESSION['role'] = 'admin'; // Set role to admin
+            // Redirect based on role
+            if ($role === 'admin') {
                 echo "<script>
                         alert('Welcome, Admin! Redirecting to Admin Dashboard...');
                         window.location.href = '../pages/admin/admin.php';
                       </script>";
             } else {
-                $_SESSION['role'] = 'teacher'; // Set role to teacher
                 echo "<script>
                         alert('Login successful! Redirecting to Teacher Dashboard...');
                         window.location.href = '../pages/teacher/teacher.php';
