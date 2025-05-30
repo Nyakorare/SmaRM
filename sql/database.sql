@@ -11,11 +11,6 @@ CREATE TABLE users (
     role ENUM('admin', 'teacher') NOT NULL DEFAULT 'teacher'
 );
 
--- Insert default admin and teacher accounts
-INSERT INTO users (username, email, password, role) VALUES
-('admin', 'admin@sarm.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-('teacher', 'teacher@sarm.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'teacher');
-
 -- Table: team_list (master list of departments)
 CREATE TABLE team_list (
     id INT AUTO_INCREMENT PRIMARY KEY,
