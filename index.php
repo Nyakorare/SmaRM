@@ -554,31 +554,51 @@ if (session_status() === PHP_SESSION_NONE) {
     document.getElementById('checkButton').addEventListener('click', function() {
         let room = document.getElementById('room').value;
         let time = document.getElementById('time').value;
+        let date = document.getElementById('date').value;
 
-        if (!room || !time) {
-            alert('Please select both a room and a time.');
+        if (!room || !time || !date) {
+            alert('Please select a room, date, and time.');
             return;
         }
+
+        console.log('Checking room:', room);
+        console.log('Checking date:', date);
+        console.log('Checking time:', time);
 
         // Perform AJAX request to check room availability
         let xhr = new XMLHttpRequest();
         xhr.open('POST', './php/check_room.php', true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
+            console.log('Response status:', xhr.status);
+            console.log('Response text:', xhr.responseText);
+            
             if (xhr.status === 200) {
                 let response = JSON.parse(xhr.responseText);
                 let messageElement = document.getElementById('modalMessage');
                 if (response.available) {
-                    messageElement.textContent = 'The room is free at this time.';
+                    messageElement.textContent = `The room is free at ${time} on ${date}.`;
                 } else {
-                    messageElement.innerHTML = `Room is booked by <strong>${response.username}</strong> for <strong>${response.scheduler_name}</strong> of <strong>${response.department}</strong> from <strong>${response.start_time}</strong> to <strong>${response.end_time}</strong>.`;
+                    messageElement.innerHTML = `
+                        <div class="schedule-details">
+                            <p><strong>Room Status:</strong> Booked</p>
+                            <p><strong>Booked By:</strong> ${response.username}</p>
+                            <p><strong>Schedule Name:</strong> ${response.scheduler_name}</p>
+                            <p><strong>Department:</strong> ${response.department}</p>
+                            <p><strong>Time:</strong> ${response.start_time} to ${response.end_time}</p>
+                        </div>
+                    `;
                 }
                 // Show the modal
                 let modal = new bootstrap.Modal(document.getElementById('roomAvailabilityModal'));
                 modal.show();
             }
         };
-        xhr.send('room=' + encodeURIComponent(room) + '&time=' + encodeURIComponent(time));
+        xhr.onerror = function() {
+            console.error('Request failed');
+            alert('Failed to check room availability. Please try again.');
+        };
+        xhr.send('room=' + encodeURIComponent(room) + '&time=' + encodeURIComponent(time) + '&date=' + encodeURIComponent(date));
     });
 </script>
 </html>
